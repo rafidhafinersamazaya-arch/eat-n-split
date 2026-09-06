@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from "./logo.svg";
+// import './App.css';
 
 const initialFriends = [
   {
@@ -22,25 +22,49 @@ const initialFriends = [
   },
 ];
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="sidebar">
+        <FriendList />
+      </div>
     </div>
   );
 }
 
-export default App;
+function FriendList() {
+  const friends = initialFriends;
+  return (
+    <ul>
+      {friends.map((friend) => (
+        <Friend teman={friend} key={friend.id} />
+      ))}
+    </ul>
+  );
+}
+
+function Friend({ teman }) {
+  if (teman.balance === 0) {
+    return (
+      <li>
+        <img src={teman.image} alt={teman.name} />
+        <h3>{teman.name}</h3>
+      </li>
+    );
+  }
+  return (
+    <li>
+      <img src={teman.image} alt={teman.name} />
+      <h3> {teman.name}</h3>
+      {teman.balance < 0 ? (
+        <div style={{ color: "red" }}>
+          {`bayar ke ${teman.name} sebesar $${Math.abs(teman.balance)}`}
+        </div>
+      ) : (
+        <div style={{ color: "green" }}>
+          {`${teman.name} bayar ke kamu $${teman.balance}`}
+        </div>
+      )}
+    </li>
+  );
+}
